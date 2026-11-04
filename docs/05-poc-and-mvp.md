@@ -4,6 +4,14 @@
 
 Este repositorio es el POC conceptual: documenta arquitectura, recorridos, modelo de confianza, alcance y experimento. No ejecuta agentes, no publica transacciones y no prueba ahorro. El término POC aquí no significa validación técnica completada.
 
+## Siguiente paso acordado: POC simulado onchain
+
+Antes del MVP completo, esta rama documenta un [protocolo de simulación controlada](11-poc-simulado-onchain.md): un harness, sesiones aisladas, una cadena EVM local, una familia de tareas y un patrón de fallo inducido. Compara herramientas y playbook fijo contra lo mismo más una experiencia local, incluyendo contexto incompatible y costo de preparación.
+
+No requiere reclutar equipos ni integrar dos harnesses para empezar. La prueba de integridad es independiente y no exige anclaje público en esta etapa. Todavía no se implementó ni ejecutó; no hay métricas observadas. La validación comercial queda para después.
+
+El alcance de dos adaptadores, tres patrones y lotes en testnet que sigue corresponde al MVP posterior, no a los requisitos de esta primera demo.
+
 ## MVP funcional propuesto
 
 - Instalación local controlada por el usuario.
@@ -21,7 +29,7 @@ Este repositorio es el POC conceptual: documenta arquitectura, recorridos, model
 
 Servicio comercial, sincronización entre dispositivos, cuentas y facturación, memoria comunitaria, reputación, token propio, entrenamiento de modelos, registro completo de cualquier harness, certificación de ejecución real y auditoría productiva de seguridad.
 
-## Secuencia de validación sugerida
+## Secuencia de validación sugerida para el MVP posterior
 
 1. Comprobar puntos de captura y consulta de dos harnesses. Documentar eventos no observables.
 2. Definir esquema, criterio de éxito y condiciones de aplicación usando ejemplos sintéticos.

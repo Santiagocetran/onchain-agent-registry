@@ -4,6 +4,8 @@
 
 Proyecto open source en etapa de diseño conceptual, desarrollado por Santi y Mateo (auto-mode-on) para explorar un primer MVP en HackaTwin. **Este repositorio contiene documentación y diagramas, no una implementación ni resultados experimentales.**
 
+En esta rama, el siguiente paso acordado es un [POC simulado y controlado de agentes onchain](docs/11-poc-simulado-onchain.md): un harness, sesiones aisladas, una cadena local y comparación con/sin memoria. No requiere reclutar equipos para empezar; la validación de mercado queda para después. El protocolo está documentado, todavía no ejecutado.
+
 ## El problema
 
 Los agentes suelen probar varios comandos o invocaciones hasta completar una tarea. Parte de esa exploración es necesaria; otra parte repite descubrimientos previos sobre herramientas, entornos o harnesses. Queremos reutilizar esas experiencias sin trasladar ciegamente una solución entre contextos incompatibles.
@@ -46,10 +48,13 @@ Integridad no equivale a verdad, utilidad, captura completa ni disponibilidad. U
 | [POC y MVP](docs/05-poc-and-mvp.md) | Alcance, entregables y decisiones pendientes |
 | [Validación económica](docs/06-validation.md) | Tiempo, dinero, tokens y experimentos |
 | [Referencias](docs/07-references.md) | Proyectos relacionados y límites de lo revisado |
+| [Investigación: agentes onchain](docs/10-validacion-onchain.md) | Competencia, límites de evidencia, cuña propuesta y experimentos; no mercado validado |
+| [POC simulado onchain](docs/11-poc-simulado-onchain.md) | Alcance inmediato acordado, ejercicios, control A/B, métricas y guion de demo |
+| [Full-Plan-Layout](docs/Full-Plan-Layout.md) | Jornada de nueve horas: flujo, reparto entre developers, medición, pulido y ensayo |
 
 ## Despliegue y modelo de producto
 
-El usuario podrá ejecutar el proyecto en su equipo o infraestructura propia. El primer MVP es local, para dos harnesses. Un servicio opcional de hosting y sincronización con cifrado de extremo a extremo queda postergado hasta validar el MVP, fuera de la hackathon.
+El usuario podrá ejecutar el proyecto en su equipo o infraestructura propia. El primer MVP propuesto es local, para dos harnesses, posterior al POC simulado de un harness. Un servicio opcional de hosting y sincronización con cifrado de extremo a extremo queda postergado hasta validar el MVP, fuera de la hackathon.
 
 No hay red, SDK, mecanismo de claves ni integraciones seleccionados todavía. No hay token propio, trading, entrenamiento automático ni reputación comunitaria dentro del MVP.
 
