@@ -1,67 +1,97 @@
-# Onchain Agent Registry
+# Onchain Agent Registry — revisión de la propuesta
 
-**Memoria verificable de experiencias de uso de herramientas por agentes.**
+**Cambiá de asistente. No pierdas lo aprendido.**
 
-Proyecto open source en etapa de diseño conceptual, desarrollado por Santi y Mateo (auto-mode-on) para explorar un primer MVP en HackaTwin. **Este repositorio contiene documentación y diagramas, no una implementación ni resultados experimentales.**
+Esta rama, `research/portable-agent-memory`, revisa la visión original de [main](https://github.com/Santiagocetran/onchain-agent-registry/tree/main) y continúa la [investigación de Mateo](docs/10-validacion-onchain.md). Propone conservar la memoria de experiencias entre asistentes, acotar el problema inicial y dejar de tratar blockchain como un componente necesario de la primera solución.
 
-> **Reflexión de producto de esta rama:** [Memoria portable para asistentes](docs/12-reflexion-memoria-portable.md) sintetiza la conversación posterior a la investigación onchain. Recomienda explorar experiencias reutilizables entre asistentes y no priorizar blockchain sin una necesidad independiente identificada. Es una recomendación provisional, no resultados experimentales ni una sustitución acordada del diseño original que sigue abajo.
+**Estado:** investigación y reflexión de producto. No hay implementación ni resultados experimentales, ahorro demostrado o demanda validada. Las diferencias que siguen son recomendaciones para discutir entre Santi y Mateo, no una decisión conjunta cerrada. El nombre del repositorio se conserva; no implica que el anclaje siga siendo obligatorio.
 
-En esta rama, el siguiente paso acordado es un [POC simulado y controlado de agentes onchain](docs/11-poc-simulado-onchain.md): un harness, sesiones aisladas, una cadena local y comparación con/sin memoria. No requiere reclutar equipos para empezar; la validación de mercado queda para después. El protocolo está documentado, todavía no ejecutado.
+## De dónde partimos
 
-## El problema
+La visión de `main` propone capturar experiencias de uso de herramientas, convertirlas en guías con evidencia y condiciones, y recuperarlas entre harnesses —los entornos en los que trabajan los asistentes—. El historial sería privado y controlado por el usuario; blockchain conservaría compromisos criptográficos, no los comandos ni las guías privadas.
 
-Los agentes suelen probar varios comandos o invocaciones hasta completar una tarea. Parte de esa exploración es necesaria; otra parte repite descubrimientos previos sobre herramientas, entornos o harnesses. Queremos reutilizar esas experiencias sin trasladar ciegamente una solución entre contextos incompatibles.
+La idea surgió de explorar blockchain como registro de acciones y de observar asistentes que prueban varios comandos antes de completar tareas, incluso al escribir archivos o usar `gh`. Esa observación motivó una pregunta: ¿cuánto de ese trabajo podría evitarse conservando lo que ya se aprendió?
 
-El foco es el comportamiento del agente y del harness: invocaciones incorrectas, repetición sin adaptación y confusión entre una operación aceptada y una terminada. No es principalmente una base de soluciones a bugs específicos de dependencias. El proyecto puede ser contexto relevante, pero no es siempre la unidad principal de organización.
+`main` ya distingue utilidad de memoria e integridad, reconoce alternativas al anclaje y no promete ahorro demostrado. Esta rama profundiza esas dudas y cambia las prioridades: antes de elegir la infraestructura, identificar una investigación repetida que valga la pena evitar.
 
-## La propuesta
+## Qué pusimos en duda
 
-Capturar eventos observables, preparar guías breves con evidencia y condiciones, y permitir su consulta entre harnesses mediante una interfaz común. El historial queda bajo control del usuario. Blockchain respalda compromisos criptográficos del contenido; no almacena comandos ni guías privadas.
+- **Varios intentos no significan necesariamente un problema de memoria.** Explorar puede ser necesario. Una herramienta mal diseñada, una instrucción ausente o un error del SDK pueden requerir una corrección directa.
+- **Guardar experiencias no garantiza mejorar al agente.** Hay que recuperar la adecuada, comprobar si aplica y verificar el resultado. Una guía desactualizada puede empeorar la ejecución.
+- **La memoria debe aportar más que documentación, skills y playbooks.** Si una regla fija resuelve el caso, no hace falta memoria dinámica. También existen productos de memoria con evidencia y vigencia, como los revisados en la investigación.
+- **La portabilidad no viene dada por registrar eventos.** Cada harness expone información distinta. Capturar actividad y conseguir que otro asistente la aproveche son problemas diferentes.
+- **Integridad no equivale a una recomendación segura.** Una guía incorrecta puede estar perfectamente firmada y anclada. Blockchain no demuestra veracidad, captura completa ni compatibilidad con el entorno actual.
+- **Un experimento sintético no demuestra una necesidad transversal.** Una prueba favorable entre sesiones tampoco demuestra transferencia entre harnesses ni demanda comercial.
 
-```mermaid
-flowchart LR
-    A["Agente y herramientas"] --> B["Capturar y filtrar"]
-    B --> C["Historial privado"]
-    C --> D["Guías con evidencia"]
-    D --> E["Consulta local selectiva"]
-    E --> A
-    C --> F["Compromisos por lotes"]
-    D --> F
-    F --> G["Blockchain"]
-```
+## Qué diferencias proponemos respecto de main
 
-**Todas las ramas registran resultados:** si no hay guía, no es compatible o la consulta falla, el agente continúa normalmente. Una nueva solución comprobada puede generar una guía candidata o aportar evidencia a una existente; un fallo sin resolver no se publica como solución.
+| Aspecto | Visión original de `main` | Propuesta de esta rama |
+|---|---|---|
+| Centro del relato | Memoria verificable de experiencias de herramientas | Evitar volver a investigar un problema ya resuelto, sin reutilizar una receta incompatible |
+| Ámbito inicial | Uso de herramientas entre harnesses y proyectos | Explorar diagnósticos de herramientas de desarrollo onchain como primer caso acotado |
+| Arquitectura | CLI común, adaptadores, historial y anclaje; MVP local para dos harnesses | Mantener la portabilidad como objetivo, sin dar por elegida una capa universal ni sus integraciones |
+| Papel de blockchain | Componente del diseño, con costo y utilidad por justificar | Capacidad separada y no prioritaria hasta identificar una necesidad de referencia independiente |
+| Comparación decisiva | Memoria frente a ausencia de memoria; anclaje frente a alternativas | Exigir además comparación con documentación, skills, playbooks y recuperación de herramientas bien configuradas |
+| Criterio de continuidad | Validar utilidad e integridad por separado | Simplificar o cambiar de dirección si una regla fija basta o si el problema real es conocer el estado de una operación |
 
-## Dos hipótesis independientes
+Conservamos el control del usuario sobre su historial, la privacidad, las guías con evidencia y condiciones, las correcciones explícitas y la continuidad del asistente cuando no hay una experiencia útil. No proponemos reemplazar esas precauciones.
 
-1. La memoria reduce el costo total de operaciones recurrentes sin empeorar el éxito.
-2. El anclaje permite detectar alteraciones posteriores del contenido comprometido.
+## La herramienta que recomendamos explorar
 
-Integridad no equivale a verdad, utilidad, captura completa ni disponibilidad. Una firma y un registro append-only son la alternativa de comparación. Blockchain agrega una referencia compartida que el operador no puede reemplazar unilateralmente bajo las garantías de la red elegida; su costo debe justificarse.
+> Tu asistente pasó varios intentos descubriendo cómo usar una herramienta en tu entorno. Mañana abrís otra sesión o cambiás de asistente y empieza de cero. Proponemos conservar qué funcionó, cómo se comprobó y cuándo sirve, para que el próximo asistente pueda aprovechar esa experiencia.
 
-## Leer el diseño
+El usuario candidato es un desarrollador u operador que supervisa asistentes y vuelve a investigar incidentes ya resueltos. La herramienta recuperaría antecedentes contextualizados, no comandos para reproducir ciegamente.
 
-| Documento | Contenido |
+**Ejemplo hipotético:** una sesión descubre una limitación de un proveedor RPC y comprueba una resolución. Otra encuentra un síntoma parecido. La experiencia anterior ayuda a elegir qué comprobar, pero su resolución se rechaza si las condiciones no coinciden. Todavía no demostramos que este recorrido mejore el desempeño ni que se repita con frecuencia suficiente.
+
+El producto sería independiente y utilizable en diferentes ecosistemas. InfiniteZero se revisó como fuente de antecedentes operacionales, **no como destinatario de una herramienta interna ni como dependencia del producto**. Su experiencia también mostró que algunos problemas se resuelven mejor corrigiendo código y documentación.
+
+El recorte onchain proviene de la investigación de Mateo y del contexto que conoce el equipo. No prueba que sea el mejor mercado ni limita permanentemente la visión. Una integración compartida entre harnesses es una posibilidad, no una capa transparente capaz de observar todo automáticamente.
+
+## Por qué no priorizamos blockchain
+
+Los agentes serían quienes consultan y verifican el historial. Eso no determina por sí solo la necesidad de blockchain: importa quién controla el contenido y la referencia contra la que se verifica.
+
+Un anclaje permitiría detectar que un contenido no coincide con un compromiso publicado previamente, bajo las garantías de la red y del verificador. **No asegura que el historial nunca fue modificado**, ni detecta eventos omitidos antes de capturarlos o afirmaciones falsas registradas desde el principio.
+
+Para memoria privada bajo control de un mismo usuario, firmas, versiones y referencias conservadas fuera del almacenamiento principal son alternativas que comparar. Blockchain tendría una justificación más clara si un servicio pudiera reescribir el historial y los agentes necesitaran verificarlo sin confiar exclusivamente en ese servicio, o si varias organizaciones necesitaran una referencia común independiente.
+
+Explorar esa garantía por aprendizaje es válido, pero debe presentarse por separado. El ahorro atribuible a memoria no justifica por sí mismo el anclaje. Operar sobre blockchain y usar blockchain para registrar experiencias son decisiones distintas.
+
+## Qué aprendimos y qué sigue abierto
+
+La revisión encontró solapamiento con herramientas existentes y antecedentes concretos de fricción operacional. **No encontró evidencia suficiente para afirmar que la memoria propuesta sea necesaria, más económica o superior a esas alternativas.** Las fuentes y sus límites están en la [síntesis completa](docs/12-reflexion-memoria-portable.md).
+
+Las preguntas que pueden cambiar la dirección son:
+
+1. ¿Qué diagnóstico real se investigó nuevamente después de haber sido resuelto?
+2. ¿Por qué no alcanzó una skill, documentación actualizada o una corrección de la herramienta?
+3. ¿Se necesita transportar ese conocimiento entre sesiones y harnesses?
+4. ¿La reutilización compensa preparar, revisar, consultar y mantener las experiencias?
+5. ¿Se rechazan las guías cuando cambia el contexto?
+6. ¿Quién podría reescribir el historial y quién necesita una referencia independiente para detectarlo?
+
+Si una regla fija obtiene el mismo resultado, conviene simplificar. Si el dolor principal es determinar qué quedó hecho tras una interrupción, puede convenir una herramienta de diagnóstico de estado. Si aparecen casos recurrentes y mejora sobre alternativas bien configuradas, se fortalece la hipótesis de memoria portable.
+
+## Cómo se relaciona con la investigación de Mateo
+
+El [documento 10](docs/10-validacion-onchain.md) analiza el recorte onchain, competencia y límites de evidencia. El [documento 11](docs/11-poc-simulado-onchain.md) propone un experimento con un harness, sesiones aisladas y casos compatible e incompatible. [Full-Plan-Layout](docs/Full-Plan-Layout.md) organiza su ejecución futura.
+
+Esos documentos se conservan como antecedentes y propuestas. Esta rama vuelve a discutir la dirección del producto: **no presenta sus planes como una decisión nueva de implementación**. Un POC con guías manuales podría mostrar utilidad de información adicional, sin demostrar todavía automatización rentable, portabilidad o demanda.
+
+El objetivo expresado para HackaTwin es aprender y presentar algo de lo que el equipo se sienta orgulloso. La recomendación es una herramienta independiente con un problema acotado y afirmaciones respaldadas, sin exigir una plataforma universal ni forzar blockchain como titular.
+
+## Guía de lectura
+
+| Documento | Qué aporta |
 |---|---|
-| [Visión y decisiones](docs/01-vision.md) | Usuarios, casos y acuerdos |
-| [Arquitectura](docs/02-architecture.md) | Componentes, límites de confianza y diagramas |
-| [Flujos y ejemplos](docs/03-flows.md) | Captura, consulta y nuevas experiencias |
-| [Datos y protección](docs/04-data-and-trust.md) | Guías, pruebas, correcciones, privacidad |
-| [POC y MVP](docs/05-poc-and-mvp.md) | Alcance, entregables y decisiones pendientes |
-| [Validación económica](docs/06-validation.md) | Tiempo, dinero, tokens y experimentos |
-| [Referencias](docs/07-references.md) | Proyectos relacionados y límites de lo revisado |
-| [Investigación: agentes onchain](docs/10-validacion-onchain.md) | Competencia, límites de evidencia, cuña propuesta y experimentos; no mercado validado |
-| [POC simulado onchain](docs/11-poc-simulado-onchain.md) | Alcance inmediato acordado, ejercicios, control A/B, métricas y guion de demo |
-| [Full-Plan-Layout](docs/Full-Plan-Layout.md) | Jornada de nueve horas: flujo, reparto entre developers, medición, pulido y ensayo |
+| [Reflexión de memoria portable](docs/12-reflexion-memoria-portable.md) | Conversación, fuentes revisadas, alternativas, recomendación y preguntas pendientes |
+| [Investigación de agentes onchain](docs/10-validacion-onchain.md) | Análisis de Mateo sobre competencia, problema y posibles evaluaciones |
+| [POC simulado](docs/11-poc-simulado-onchain.md) | Protocolo propuesto; sin ejecuciones ni resultados |
+| [Full-Plan-Layout](docs/Full-Plan-Layout.md) | Plan previo de ejecución, conservado como antecedente |
+| [Visión](docs/01-vision.md) · [Arquitectura](docs/02-architecture.md) · [Flujos](docs/03-flows.md) | Diseño original; no todas sus decisiones son compromisos de esta propuesta |
+| [Datos y confianza](docs/04-data-and-trust.md) | Integridad, privacidad, correcciones y límites |
+| [POC y MVP](docs/05-poc-and-mvp.md) · [Validación económica](docs/06-validation.md) | Alcances previos y criterios para evaluar costos y resultados |
+| [Referencias](docs/07-references.md) | Fuentes del diseño original |
 
-## Despliegue y modelo de producto
-
-El usuario podrá ejecutar el proyecto en su equipo o infraestructura propia. El primer MVP propuesto es local, para dos harnesses, posterior al POC simulado de un harness. Un servicio opcional de hosting y sincronización con cifrado de extremo a extremo queda postergado hasta validar el MVP, fuera de la hackathon.
-
-No hay red, SDK, mecanismo de claves ni integraciones seleccionados todavía. No hay token propio, trading, entrenamiento automático ni reputación comunitaria dentro del MVP.
-
-## Estado y contribuciones
-
-Las propuestas técnicas pendientes están identificadas en los documentos. Se aceptan discusiones y cambios de documentación mediante issues y pull requests. No publicar logs reales, secretos ni información privada en issues.
-
-Documentación bajo licencia MIT; la elección de licencia es una propuesta editorial inicial del repositorio, no una decisión técnica del producto.
+Se aceptan discusiones y propuestas. No publicar logs reales, secretos ni información privada en issues. Documentación bajo licencia MIT.
