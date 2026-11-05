@@ -4,6 +4,8 @@
 
 Proyecto open source en etapa de diseño conceptual, desarrollado por Santi y Mateo (auto-mode-on) para explorar un primer MVP en HackaTwin. **Este repositorio contiene documentación y diagramas, no una implementación ni resultados experimentales.**
 
+> **Reflexión de producto de esta rama:** [Memoria portable para asistentes](docs/12-reflexion-memoria-portable.md) sintetiza la conversación posterior a la investigación onchain. Recomienda explorar experiencias reutilizables entre asistentes y no priorizar blockchain sin una necesidad independiente identificada. Es una recomendación provisional, no resultados experimentales ni una sustitución acordada del diseño original que sigue abajo.
+
 En esta rama, el siguiente paso acordado es un [POC simulado y controlado de agentes onchain](docs/11-poc-simulado-onchain.md): un harness, sesiones aisladas, una cadena local y comparación con/sin memoria. No requiere reclutar equipos para empezar; la validación de mercado queda para después. El protocolo está documentado, todavía no ejecutado.
 
 ## El problema
